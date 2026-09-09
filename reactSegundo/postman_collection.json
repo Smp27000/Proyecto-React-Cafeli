@@ -1,0 +1,537 @@
+{
+	"info": {
+		"_postman_id": "c869ea1d-f8fb-4148-912c-4ef2436d2026",
+		"name": "Proyecto React - Backend API (Taller 2)",
+		"description": "Colección de pruebas para evidenciar los endpoints del backend, incluyendo registro, login con generación de JWT, gestión de usuarios (consulta, actualización, cambio de estado y eliminación) y endpoints protegidos.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Autenticación",
+			"item": [
+				{
+					"name": "Registro - Cliente (Correcto)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombres\": \"Carlos\",\n    \"apellidos\": \"Gomez\",\n    \"tipo_documento\": \"CC\",\n    \"numero_documento\": \"12345678\",\n    \"direccion\": \"Calle 10 # 5-4\",\n    \"telefono\": \"3104567890\",\n    \"email\": \"carlos.cliente@correo.com\",\n    \"password\": \"Segura1234\",\n    \"rol_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Registra un nuevo usuario con el rol de Cliente (rol_id: 2)."
+					},
+					"response": []
+				},
+				{
+					"name": "Registro - Administrador (Correcto)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombres\": \"Ana\",\n    \"apellidos\": \"Alvarez\",\n    \"tipo_documento\": \"CC\",\n    \"numero_documento\": \"87654321\",\n    \"direccion\": \"Av. Principal # 23\",\n    \"telefono\": \"3119876543\",\n    \"email\": \"ana.admin@correo.com\",\n    \"password\": \"Admin98765\",\n    \"rol_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Registra un nuevo usuario con el rol de Administrador (rol_id: 1)."
+					},
+					"response": []
+				},
+				{
+					"name": "Registro - Empleado (Correcto)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombres\": \"Mateo\",\n    \"apellidos\": \"Perez\",\n    \"tipo_documento\": \"CC\",\n    \"numero_documento\": \"55544433\",\n    \"direccion\": \"Av El Sol # 45\",\n    \"telefono\": \"3159998887\",\n    \"email\": \"mateo.empleado@correo.com\",\n    \"password\": \"Empleado1234\",\n    \"rol_id\": 3\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Registra un nuevo usuario con el rol de Empleado (rol_id: 3)."
+					},
+					"response": []
+				},
+				{
+					"name": "Registro - Error (Datos Inválidos)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombres\": \"\",\n    \"apellidos\": \"Corto\",\n    \"tipo_documento\": \"CC\",\n    \"numero_documento\": \"12\",\n    \"email\": \"correo-invalido\",\n    \"password\": \"123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Prueba de error al registrar un usuario con datos que fallan las validaciones (nombre vacío, documento muy corto, contraseña débil)."
+					},
+					"response": []
+				},
+				{
+					"name": "Inicio de Sesión (Genera JWT)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"if (response.token) {",
+									"    pm.collectionVariables.set(\"token\", response.token);",
+									"    console.log(\"Token JWT guardado automáticamente en variables de la colección.\");",
+									"}"
+								],
+								"type": "javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ana.admin@correo.com\",\n    \"password\": \"Admin98765\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Inicia sesión con las credenciales de un usuario activo. Al completarse con éxito, guarda el JWT retornado en la variable `{{token}}` automáticamente."
+					},
+					"response": []
+				},
+				{
+					"name": "Inicio de Sesión - Empleado (Genera JWT)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"if (response.token) {",
+									"    pm.collectionVariables.set(\"token\", response.token);",
+									"    console.log(\"Token JWT de Empleado guardado automáticamente en variables de la colección.\");",
+									"}"
+								],
+								"type": "javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"mateo.empleado@correo.com\",\n    \"password\": \"Empleado1234\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Inicia sesión con las credenciales del usuario Empleado. Al completarse con éxito, guarda el JWT retornado en la variable `{{token}}` automáticamente."
+					},
+					"response": []
+				},
+				{
+					"name": "Inicio de Sesión - Error (Credenciales Incorrectas)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ana.admin@correo.com\",\n    \"password\": \"ClaveIncorrecta\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Prueba de error al iniciar sesión con contraseña incorrecta."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Gestión de Usuarios (Protegidos)",
+			"item": [
+				{
+					"name": "Consulta de Usuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						},
+						"description": "Obtiene el listado de todos los usuarios registrados. Requiere autorización Bearer JWT (con rol Administrador)."
+					},
+					"response": []
+				},
+				{
+					"name": "Actualización de Usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombres\": \"Carlos Andres\",\n    \"apellidos\": \"Gomez P.\",\n    \"tipo_documento\": \"CC\",\n    \"numero_documento\": \"12345678\",\n    \"direccion\": \"Calle Nueva # 12-34\",\n    \"telefono\": \"3109999999\",\n    \"email\": \"carlos.cliente@correo.com\",\n    \"rol_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/usuarios/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios",
+								"1"
+							]
+						},
+						"description": "Actualiza la información del usuario con ID 1 (reemplazar con un ID existente). Requiere autorización Bearer JWT."
+					},
+					"response": []
+				},
+				{
+					"name": "Cambio de Estado (Activo / Inactivo)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"estado\": \"Inactivo\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/usuarios/1/estado",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios",
+								"1",
+								"estado"
+							]
+						},
+						"description": "Cambia el estado de un usuario (Activo/Inactivo). Requiere autorización Bearer JWT (con rol Administrador)."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminación de Usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/usuarios/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios",
+								"1"
+							]
+						},
+						"description": "Elimina el usuario con ID 1 (reemplazar con un ID existente). Requiere autorización Bearer JWT."
+					},
+					"response": []
+				},
+				{
+					"name": "Acceso Denegado (Sin Token JWT)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						},
+						"description": "Intento de consultar usuarios sin enviar la cabecera Authorization JWT, lo cual retornará un estado 401 (No Autorizado)."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Validaciones de Permisos (Empleado vs Administrador)",
+			"item": [
+				{
+					"name": "Crear Producto (Rol Empleado - Permitido)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Cafetera Express Premium\",\n    \"descripcion\": \"Cafetera de alta presión para espresso perfecto\",\n    \"precio\": 450000,\n    \"stock\": 15,\n    \"imagen_url\": \"http://example.com/cafetera.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/productos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"productos"
+							]
+						},
+						"description": "El rol de Empleado está autorizado para crear productos. Debería retornar 201."
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Servicio (Rol Empleado - Permitido)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Mantenimiento Cafeteras Hogar\",\n    \"descripcion\": \"Limpieza, descalcificación y calibración general\",\n    \"precio\": 80000,\n    \"duracion\": 60,\n    \"estado\": \"Activo\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/servicios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"servicios"
+							]
+						},
+						"description": "El rol de Empleado está autorizado para crear servicios. Debería retornar 201."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Usuarios (Rol Empleado - Denegado)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						},
+						"description": "El rol de Empleado no tiene permisos para listar usuarios (solo Administrador). Debería retornar 403 Forbidden."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
