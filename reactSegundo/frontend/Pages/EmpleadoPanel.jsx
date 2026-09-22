@@ -234,17 +234,11 @@ export function EmpleadoPanel() {
       {activeTab === "dashboard" && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {kpis.kpis?.length ? kpis.kpis.filter(k => !k.titulo.includes("Usuario")).slice(0, 8).map((k, i) => (
-              <KPICard key={i} titulo={k.titulo} valor={k.valor} icono={k.icono} color={k.color} />
-            )) : [
-              { titulo: "Productos", valor: kpis.total_productos ?? productos.length, icono: "☕", color: "#6F4E37" },
-              { titulo: "Servicios", valor: kpis.total_servicios ?? servicios.length, icono: "✨", color: "#f59e0b" },
-              { titulo: "Ventas", valor: kpis.total_ventas ?? ventas.length, icono: "💸", color: "#8b5cf6" },
-              { titulo: "Facturación", valor: `$${Number(kpis.total_facturacion || 0).toLocaleString()}`, icono: "💵", color: "#ef4444" },
-              { titulo: "Total PQR", valor: kpis.total_pqr ?? pqrList.length, icono: "📝", color: "#ec4899" },
+            {[
+              { titulo: "Facturación Total", valor: kpis.total_facturacion ? `$${Number(kpis.total_facturacion).toLocaleString()}` : "$0", icono: "💵", color: "#ef4444" },
+              { titulo: "Ventas Pagadas", valor: kpis.total_ventas ?? ventas.length, icono: "💸", color: "#8b5cf6" },
+              { titulo: "Total Pedidos", valor: kpis.total_pedidos ?? pedidos.length, icono: "📦", color: "#14b8a6" },
               { titulo: "PQR Pendientes", valor: kpis.pqr_pendientes ?? pqrList.filter(r => r.estado === "Pendiente").length, icono: "⏳", color: "#f97316" },
-              { titulo: "Total Pedidos", valor: kpis.total_pedidos ?? pedidos.length, icono: "📦", color: "#3b82f6" },
-              { titulo: "Pedidos Pendientes", valor: kpis.pedidos_pendientes ?? pedidos.filter(p => p.estado === "Pendiente" || p.estado === "Preparando").length, icono: "☕", color: "#10b981" },
             ].map((k, i) => <KPICard key={i} {...k} />)}
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

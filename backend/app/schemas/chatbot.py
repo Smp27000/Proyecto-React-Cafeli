@@ -4,8 +4,12 @@ from pydantic import BaseModel, Field
 
 
 class MensajeCreate(BaseModel):
-    contenido: str = Field(..., min_length=1)
+    contenido: Optional[str] = Field(None, min_length=1)
+    mensaje: Optional[str] = Field(None, min_length=1)
     session_id: Optional[str] = Field(None, max_length=100)
+
+    def get_text(self) -> str:
+        return (self.contenido or self.mensaje or "").strip()
 
 
 class MensajeResponse(BaseModel):

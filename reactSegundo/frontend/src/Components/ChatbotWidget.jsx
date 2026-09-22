@@ -51,7 +51,7 @@ export function ChatbotWidget() {
       const res = await fetch(`${API_BASE}/chatbot/mensaje`, {
         method: "POST",
         headers,
-        body: JSON.stringify({ session_id: sessionId, mensaje: texto }),
+        body: JSON.stringify({ session_id: sessionId, contenido: texto, mensaje: texto }),
       });
       const data = await res.json();
       if (data.success) {

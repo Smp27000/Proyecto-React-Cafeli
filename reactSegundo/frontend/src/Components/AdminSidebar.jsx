@@ -13,6 +13,7 @@ export function AdminSidebar({ user, onLogout, activeTab, onTabChange }) {
 
   const handleTabSelect = (tabId) => {
     if (onTabChange) onTabChange(tabId);
+    navigate("/admin");
     setIsOpenMobile(false);
   };
 

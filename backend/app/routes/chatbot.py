@@ -249,12 +249,16 @@ async def enviar_mensaje(
 
     session_id = body.session_id or f"sess-{uuid.uuid4().hex[:16]}"
 
+    texto_mensaje = body.get_text()
+    if not texto_mensaje:
+        raise HTTPException(status_code=400, detail="El contenido del mensaje no puede estar vacío.")
+
     conv = db.query(Conversacion).filter(Conversacion.session_id == session_id).first()
     if not conv:
         conv = Conversacion(
             session_id=session_id,
             usuario_id=current_user.id if current_user and hasattr(current_user, "id") else None,
-            titulo=body.contenido[:60] or "Nueva conversación",
+            titulo=texto_mensaje[:60] or "Nueva conversación",
             origen="Web",
             finalizada=False
         )
@@ -265,7 +269,7 @@ async def enviar_mensaje(
     msg_usuario = Mensaje(
         conversacion_id=conv.id,
         remitente="Usuario",
-        contenido=body.contenido.strip()
+        contenido=texto_mensaje
     )
     db.add(msg_usuario)
     db.flush()
@@ -277,11 +281,11 @@ async def enviar_mensaje(
     historial_dicts = [{"remitente": m.remitente, "contenido": m.contenido} for m in historial]
 
     # Respuesta por reglas primero
-    respuesta = _buscar_respuesta_reglas(body.contenido)
+    respuesta = _buscar_respuesta_reglas(texto_mensaje)
 
     # Si no hay respuesta por reglas, intentar IA
     if not respuesta:
-        respuesta_ia = await _obtener_respuesta_openai(body.contenido, historial_dicts)
+        respuesta_ia = await _obtener_respuesta_openai(texto_mensaje, historial_dicts)
         respuesta = respuesta_ia or (
             "Entiendo tu consulta. Si requieres ayuda más específica, puedes "
             "registrar una PQR desde tu cuenta o contactarnos por el botón de WhatsApp. ☕✨"
