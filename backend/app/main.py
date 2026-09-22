@@ -14,7 +14,13 @@ from app.routes import (
     productos_router,
     carrito_router,
     pedidos_router,
-    servicios_router
+    servicios_router,
+    ventas_router,
+    facturas_router,
+    reportes_router,
+    estadisticas_router,
+    pqr_router,
+    chatbot_router
 )
 
 # Configuración de logs
@@ -124,7 +130,13 @@ api_v1_routers = [
     productos_router,
     carrito_router,
     pedidos_router,
-    servicios_router
+    servicios_router,
+    ventas_router,
+    facturas_router,
+    reportes_router,
+    estadisticas_router,
+    pqr_router,
+    chatbot_router
 ]
 
 for r in api_v1_routers:

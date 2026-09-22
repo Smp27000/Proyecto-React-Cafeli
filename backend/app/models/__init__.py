@@ -4,6 +4,10 @@ from app.models.producto import Producto
 from app.models.carrito import CarritoItem
 from app.models.pedido import Pedido, DetallePedido, EstadoPedido
 from app.models.servicio import Servicio
+from app.models.venta import Venta, DetalleVenta
+from app.models.factura import Factura, DetalleFactura
+from app.models.pqr import PQR
+from app.models.chatbot import Conversacion, Mensaje
 
 __all__ = [
     "Base",
@@ -16,5 +20,12 @@ __all__ = [
     "Pedido",
     "DetallePedido",
     "EstadoPedido",
-    "Servicio"
+    "Servicio",
+    "Venta",
+    "DetalleVenta",
+    "Factura",
+    "DetalleFactura",
+    "PQR",
+    "Conversacion",
+    "Mensaje"
 ]

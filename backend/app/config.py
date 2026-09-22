@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     DB_PASSWORD: str = os.getenv("DB_PASSWORD", "")
     DB_NAME: str = os.getenv("DB_NAME", "db_jhm_tech_solutions")
 
-    # Clave de seguridad JWT
+    # JWT & Seguridad
     SECRET_KEY: str = os.getenv("SECRET_KEY", "supersecretkey_cafeli_secure_jwt_token_development_key_2026")
     ALGORITHM: str = os.getenv("ALGORITHM", "HS256")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 1440))
@@ -30,6 +30,17 @@ class Settings(BaseSettings):
         "CORS_ORIGINS", 
         "http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173,http://127.0.0.1:3000"
     )
+
+    # Inteligencia Artificial - OpenAI
+    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
+    OPENAI_MODEL: str = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")
+
+    # Información del negocio para reportes/facturas
+    EMPRESA_NOMBRE: str = os.getenv("EMPRESA_NOMBRE", "CafeLi Marketplace")
+    EMPRESA_NIT: str = os.getenv("EMPRESA_NIT", "000.000.000-0")
+    EMPRESA_DIRECCION: str = os.getenv("EMPRESA_DIRECCION", "Dirección Principal, Colombia")
+    EMPRESA_TELEFONO: str = os.getenv("EMPRESA_TELEFONO", "+57 300 000 0000")
+    IMPUESTO_PORCENTAJE: float = float(os.getenv("IMPUESTO_PORCENTAJE", "0.0"))
 
     @property
     def DATABASE_URL(self) -> str:

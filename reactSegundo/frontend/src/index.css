@@ -1,24 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
+@theme {
+  --color-coffee-50: #FDF8F3;
+  --color-coffee-100: #F9EFE3;
+  --color-coffee-200: #F1DCC4;
+  --color-coffee-300: #E5C39E;
+  --color-coffee-400: #D4A373;
+  --color-coffee-500: #C88A4E;
+  --color-coffee-600: #B4692C;
+  --color-coffee-700: #8B5A2B;
+  --color-coffee-800: #6F4E37;
+  --color-coffee-900: #4D3220;
+  --color-coffee-950: #2D1B10;
+
+  --shadow-sm-coffee: 0 1px 2px 0 rgba(111, 78, 55, 0.06), 0 1px 3px 0 rgba(111, 78, 55, 0.04);
+  --shadow-md-coffee: 0 4px 6px -1px rgba(111, 78, 55, 0.08), 0 2px 4px -2px rgba(111, 78, 55, 0.06);
+  --shadow-lg-coffee: 0 10px 15px -3px rgba(111, 78, 55, 0.12), 0 4px 6px -4px rgba(111, 78, 55, 0.10);
+  --shadow-xl-coffee: 0 20px 25px -5px rgba(111, 78, 55, 0.15), 0 8px 10px -6px rgba(111, 78, 55, 0.12);
+  --shadow-2xl-coffee: 0 25px 50px -12px rgba(111, 78, 55, 0.25);
+
+  --animate-pulse-badge: pulse-badge 1.2s ease-in-out infinite;
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.5s linear infinite;
+  --animate-fade-up: fade-up 0.4s ease-out forwards;
+  --animate-shake: shake 0.6s ease-in-out;
+  --animate-ring-pulse: ring-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 :root {
-  --text: #4a3b32;
-  --text-h: #2b1810;
-  --bg: #fcfbfa;
-  --border: #eedecf;
-  --code-bg: #f5ede6;
-  --accent: #b45309;
-  --accent-bg: rgba(180, 83, 9, 0.1);
-  --accent-border: rgba(180, 83, 9, 0.5);
-  --shadow: 0 10px 25px -5px rgba(69, 26, 3, 0.08), 0 8px 10px -6px rgba(69, 26, 3, 0.04);
-
-  --sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --heading: 'Playfair Display', Georgia, serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 16px/150% var(--sans);
-  letter-spacing: 0.1px;
-  color: var(--text);
-  background: var(--bg);
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light;
+  color: #3b2a22;
+  background-color: #FDF8F3;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,7 +43,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #faf7f2;
+  background-color: #FDF8F3;
   color: #3b2a22;
   overflow-x: hidden;
 }
@@ -42,16 +58,29 @@ body {
   box-sizing: border-box;
 }
 
-/* Tipografía de títulos elegantes con temática de Café */
-h1, h2, h3, h4, .font-serif {
-  font-family: var(--heading), serif;
+h1, h2, h3, h4, h5, h6, .font-serif {
+  font-family: 'Playfair Display', Georgia, serif;
 }
 
-/* Animaciones suaves */
-@keyframes fadeIn {
+@keyframes pulse-badge {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -59,22 +88,107 @@ h1, h2, h3, h4, .font-serif {
   }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-out forwards;
+@keyframes shake {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px) rotate(-2deg); }
+  20%, 40%, 60%, 80% { transform: translateX(2px) rotate(2deg); }
 }
 
-/* Scrollbar estilizado en tonos cálidos */
+@keyframes ring-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5), 0 0 0 0 rgba(37, 211, 102, 0.3);
+  }
+  70% {
+    box-shadow: 0 0 0 18px rgba(37, 211, 102, 0), 0 0 0 10px rgba(37, 211, 102, 0.15);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0), 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+.animate-pulse-badge {
+  animation: pulse-badge 1.2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2.5s linear infinite;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-shake {
+  animation: shake 0.6s ease-in-out;
+}
+
+.animate-ring-pulse {
+  animation: ring-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.stagger-1 { animation-delay: 50ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 150ms; }
+.stagger-4 { animation-delay: 200ms; }
+.stagger-5 { animation-delay: 250ms; }
+.stagger-6 { animation-delay: 300ms; }
+.stagger-7 { animation-delay: 350ms; }
+.stagger-8 { animation-delay: 400ms; }
+
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #f5ebe1;
+  background: #F9EFE3;
+  border-radius: 10px;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #d4a373;
-  border-radius: 4px;
+  background: linear-gradient(180deg, #D4A373, #8B5A2B);
+  border-radius: 10px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #bc6c25;
+  background: linear-gradient(180deg, #B4692C, #6F4E37);
+}
+
+.gradient-coffee {
+  background: linear-gradient(135deg, #6F4E37 0%, #4D3220 100%);
+}
+
+.gradient-coffee-light {
+  background: linear-gradient(135deg, #F9EFE3 0%, #F1DCC4 100%);
+}
+
+.gradient-amber-coffee {
+  background: linear-gradient(135deg, #B4692C 0%, #4D3220 100%);
+}
+
+.gradient-hero {
+  background: linear-gradient(135deg, #FDF8F3 0%, #F9EFE3 50%, #F1DCC4 100%);
+}
+
+.gradient-footer {
+  background: linear-gradient(to top, #2D1B10 0%, #6F4E37 50%, #8B5A2B 100%);
+}
+
+.text-gradient-coffee {
+  background: linear-gradient(135deg, #8B5A2B 0%, #4D3220 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.backdrop-blur-soft {
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
 }

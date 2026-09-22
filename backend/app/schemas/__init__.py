@@ -33,6 +33,39 @@ from app.schemas.servicio import (
     ServicioResponse,
     ServicioListResponse
 )
+from app.schemas.venta import (
+    VentaCreate,
+    VentaResponse,
+    DetalleVentaResponse,
+    VentaListResponse,
+    VentaEstadoUpdate
+)
+from app.schemas.factura import (
+    FacturaResponse,
+    DetalleFacturaResponse,
+    FacturaListResponse,
+    FacturaEstadoUpdate,
+    FacturaFromVenta
+)
+from app.schemas.pqr import (
+    PQRCreate,
+    PQRUpdateEstado,
+    PQRResponse,
+    PQRListResponse
+)
+from app.schemas.chatbot import (
+    MensajeCreate,
+    MensajeResponse,
+    ChatbotResponse,
+    ConversacionResponse,
+    ConversacionListResponse
+)
+from app.schemas.estadisticas import (
+    KPIItem,
+    KPIDashboardResponse,
+    PuntoDatoGrafico,
+    GraficoVentasResponse
+)
 
 __all__ = [
     "ApiResponse",
@@ -64,5 +97,28 @@ __all__ = [
     "ServicioCreate",
     "ServicioUpdate",
     "ServicioResponse",
-    "ServicioListResponse"
+    "ServicioListResponse",
+    "VentaCreate",
+    "VentaResponse",
+    "DetalleVentaResponse",
+    "VentaListResponse",
+    "VentaEstadoUpdate",
+    "FacturaResponse",
+    "DetalleFacturaResponse",
+    "FacturaListResponse",
+    "FacturaEstadoUpdate",
+    "FacturaFromVenta",
+    "PQRCreate",
+    "PQRUpdateEstado",
+    "PQRResponse",
+    "PQRListResponse",
+    "MensajeCreate",
+    "MensajeResponse",
+    "ChatbotResponse",
+    "ConversacionResponse",
+    "ConversacionListResponse",
+    "KPIItem",
+    "KPIDashboardResponse",
+    "PuntoDatoGrafico",
+    "GraficoVentasResponse"
 ]

@@ -5,6 +5,7 @@ import { AdminSidebar } from './Components/AdminSidebar'
 import { CartDrawer } from './Components/CartDrawer'
 import { Footer } from './Components/Footer'
 import { WhatsAppButton } from './Components/WhatsAppButton'
+import { ChatbotWidget } from './Components/ChatbotWidget'
 
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 
@@ -208,6 +209,9 @@ function App() {
           fetchCart()
         }}
       />
+
+      {/* Chatbot flotante global (visible en todas las rutas y roles) */}
+      <ChatbotWidget />
     </div>
   )
 }
