@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-const API_BASE = "http://localhost:3000/api/v1";
+import { API_BASE } from "../src/config";
 
 function BarChart({ data = [], height = 200, color = "#6F4E37" }) {
   if (!data.length) {

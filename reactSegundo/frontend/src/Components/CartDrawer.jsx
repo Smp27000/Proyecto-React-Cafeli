@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API_BASE } from "../config";
 
 export function CartDrawer({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, onClearCart, onCheckoutSuccess }) {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
@@ -27,7 +28,7 @@ export function CartDrawer({ isOpen, onClose, cart, onUpdateQuantity, onRemoveIt
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:3000/api/v1/pedidos", {
+      const res = await fetch(`${API_BASE}/pedidos`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

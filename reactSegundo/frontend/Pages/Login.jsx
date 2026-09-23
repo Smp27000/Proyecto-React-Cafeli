@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { Register } from './Register'
 import logo from '../src/img/cafeli_logo_1_fondo_blanco.png'
+import { API_BASE } from '../src/config'
 
 export function Login({ onLoginSuccess }) {
     const [email, setEmail] = useState('')
@@ -20,7 +21,7 @@ export function Login({ onLoginSuccess }) {
         }
 
         try {
-            const res = await fetch("http://localhost:3000/api/v1/auth/login", {
+            const res = await fetch(`${API_BASE}/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password })

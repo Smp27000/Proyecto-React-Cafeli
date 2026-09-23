@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
+import { API_BASE } from './config'
 import Navbar from './Components/Navbar'
 import { AdminSidebar } from './Components/AdminSidebar'
 import { CartDrawer } from './Components/CartDrawer'
@@ -44,7 +45,7 @@ function App() {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/v1/carrito", {
+      const res = await fetch(`${API_BASE}/carrito`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       const data = await res.json()
@@ -78,7 +79,7 @@ function App() {
     if (!token) return
 
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/carrito/${itemId}`, {
+      const res = await fetch(`${API_BASE}/carrito/${itemId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +98,7 @@ function App() {
     if (!token) return
 
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/carrito/${itemId}`, {
+      const res = await fetch(`${API_BASE}/carrito/${itemId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -112,7 +113,7 @@ function App() {
     if (!token) return
 
     try {
-      const res = await fetch("http://localhost:3000/api/v1/carrito", {
+      const res = await fetch(`${API_BASE}/carrito`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       })

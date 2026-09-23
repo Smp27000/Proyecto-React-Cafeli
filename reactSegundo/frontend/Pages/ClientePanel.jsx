@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-const API_BASE = "http://localhost:3000/api/v1";
+import { API_BASE } from "../src/config";
 
 export function ClientePanel({ onOpenCart, onProductAdded }) {
   const [activeTab, setActiveTab] = useState("catalogo");

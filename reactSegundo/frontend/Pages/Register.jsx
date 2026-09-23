@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import logo from '../src/img/cafeli_logo_fondo_blanco.png'
+import { API_BASE } from '../src/config'
 
 export function Register({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
@@ -181,7 +182,7 @@ export function Register({ isOpen, onClose }) {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/api/v1/auth/register", {
+      const res = await fetch(`${API_BASE}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
