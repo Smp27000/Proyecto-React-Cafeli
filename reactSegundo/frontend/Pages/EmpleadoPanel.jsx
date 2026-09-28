@@ -54,6 +54,7 @@ export function EmpleadoPanel() {
   const [ventas, setVentas] = useState([]);
   const [facturas, setFacturas] = useState([]);
   const [pqrList, setPqrList] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
   const [kpis, setKpis] = useState({ kpis: [] });
   const [graficos, setGraficos] = useState({ ventas_por_dia: [], productos_mas_vendidos: [], ventas_por_metodo_pago: [], resumen: {} });
 
@@ -85,6 +86,7 @@ export function EmpleadoPanel() {
       apiFetch("/ventas").then(r => r && setVentas(r.ventas || [])),
       apiFetch("/facturas").then(r => r && setFacturas(r.facturas || [])),
       apiFetch("/pqr").then(r => r && setPqrList(r.pqr || [])),
+      apiFetch("/usuarios").then(r => r && setUsuarios(r.usuarios || [])),
       apiFetch("/estadisticas/kpis").then(r => r && setKpis(r)),
       apiFetch("/estadisticas/ventas-graficos?periodo=mes").then(r => r && setGraficos(r)),
     ];
@@ -196,11 +198,22 @@ export function EmpleadoPanel() {
     if (res) setPqrList(res.pqr || []);
   };
 
+  const handleDeleteUser = async (id, nombre) => {
+    if (confirm(`¿Eliminar la cuenta del usuario ${nombre}?`)) {
+      const res = await apiFetch(`/usuarios/${id}`, { method: "DELETE" });
+      if (res) {
+        alert("Usuario eliminado correctamente.");
+        fetchAll();
+      }
+    }
+  };
+
   const tabs = [
     { id: "dashboard", label: "Dashboard", icon: "📊", count: "-" },
     { id: "ventas", label: "Ventas", icon: "💰", count: ventas.length },
     { id: "facturas", label: "Facturas", icon: "🧾", count: facturas.length },
     { id: "pedidos", label: "Pedidos", icon: "📦", count: pedidos.length },
+    { id: "usuarios", label: "Eliminar Usuarios", icon: "👥", count: usuarios.length },
     { id: "productos", label: "Productos", icon: "☕", count: productos.length },
     { id: "servicios", label: "Servicios", icon: "✨", count: servicios.length },
     { id: "pqr", label: "PQR", icon: "📝", count: pqrList.length },
@@ -636,6 +649,65 @@ export function EmpleadoPanel() {
                 <span className="text-4xl opacity-30 group-hover:translate-x-2 transition-transform">→</span>
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* =============== ELIMINAR USUARIOS (EMPLEADO) =============== */}
+      {activeTab === "usuarios" && (
+        <div className="space-y-5">
+          <div className="flex justify-between items-center bg-white p-5 rounded-3xl border border-amber-100 shadow-sm">
+            <div className="flex items-center space-x-3">
+              <span className="w-11 h-11 rounded-2xl bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center text-white text-xl shadow-lg shadow-red-900/20">👥</span>
+              <div>
+                <h2 className="text-xl font-bold text-stone-900 font-serif">Eliminación de Usuarios</h2>
+                <p className="text-xs text-stone-500 mt-0.5">Permiso exclusivo para el rol de Empleado para eliminar cuentas de usuario</p>
+              </div>
+            </div>
+          </div>
+          <div className="overflow-x-auto bg-white rounded-3xl shadow-sm border border-amber-100">
+            <table className="min-w-full text-xs text-stone-700">
+              <thead className="bg-stone-900/5">
+                <tr>
+                  <th className="p-4 font-bold uppercase tracking-wider text-[10px] text-stone-700 rounded-tl-2xl text-left">Usuario</th>
+                  <th className="p-4 font-bold uppercase tracking-wider text-[10px] text-stone-700 text-left">Documento</th>
+                  <th className="p-4 font-bold uppercase tracking-wider text-[10px] text-stone-700 text-left">Contacto</th>
+                  <th className="p-4 font-bold uppercase tracking-wider text-[10px] text-stone-700 text-left">Email</th>
+                  <th className="p-4 font-bold uppercase tracking-wider text-[10px] text-stone-700 text-left">Rol</th>
+                  <th className="p-4 font-bold uppercase tracking-wider text-[10px] text-stone-700 text-left">Estado</th>
+                  <th className="p-4 font-bold uppercase tracking-wider text-[10px] text-stone-700 text-center rounded-tr-2xl">Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                {usuarios.length === 0 ? (
+                  <tr><td colSpan={7} className="p-8 text-center text-stone-400 italic">No hay usuarios registrados.</td></tr>
+                ) : (
+                  usuarios.map((u, idx) => (
+                    <tr key={u.id} className={`transition-all duration-150 hover:bg-amber-100/40 ${idx % 2 === 1 ? "bg-amber-50/50" : ""}`}>
+                      <td className="p-4 font-bold text-stone-900">{u.nombres} {u.apellidos}</td>
+                      <td className="p-4 text-stone-600">{u.tipo_documento} {u.numero_documento}</td>
+                      <td className="p-4 text-stone-600">{u.telefono || "-"}</td>
+                      <td className="p-4 text-amber-900 font-medium">{u.email}</td>
+                      <td className="p-4">
+                        <span className={`px-3 py-1 rounded-full text-[10px] font-bold ${
+                          u.rol_nombre === "Administrador" ? "bg-purple-100 text-purple-800 border border-purple-200" :
+                          u.rol_nombre === "Empleado" ? "bg-blue-100 text-blue-800 border border-blue-200" : "bg-stone-100 text-stone-700 border border-stone-200"
+                        }`}>{u.rol_nombre}</span>
+                      </td>
+                      <td className="p-4 font-semibold text-stone-700">● {u.estado}</td>
+                      <td className="p-4 text-center">
+                        <button
+                          onClick={() => handleDeleteUser(u.id, `${u.nombres} ${u.apellidos}`)}
+                          className="bg-red-50 hover:bg-red-100 text-red-700 font-bold px-3.5 py-2 rounded-xl text-xs border border-red-200 transition-all hover:-translate-y-0.5"
+                        >
+                          🗑️ Eliminar
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
       )}

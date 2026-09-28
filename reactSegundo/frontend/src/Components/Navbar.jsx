@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../img/cafeli_logo_2.png";
 
-function Navbar({ user, onLogout, cartCount = 0, onOpenCart }) {
+function Navbar({ user, onLogout, cartCount = 0, onOpenCart, onOpenEditProfile }) {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -149,16 +149,25 @@ function Navbar({ user, onLogout, cartCount = 0, onOpenCart }) {
                 <span className="block text-xs font-bold text-coffee-950 leading-tight">
                   Hola, {user.nombres}
                 </span>
-                <span className="text-[10px] text-coffee-600 font-semibold uppercase tracking-wide">
-                  {user.rol_nombre}
-                </span>
+                <button
+                  onClick={onOpenEditProfile}
+                  className="text-[10px] text-amber-800 hover:text-amber-950 font-bold uppercase tracking-wider underline cursor-pointer"
+                >
+                  ✏️ Editar Perfil
+                </button>
               </div>
-              <div className="relative">
-                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-coffee-500 via-coffee-700 to-coffee-950 flex items-center justify-center text-white text-xs sm:text-sm font-bold shadow-md-coffee ring-2 ring-white/80">
+              <button
+                onClick={onOpenEditProfile}
+                className="relative group focus:outline-none"
+                title="Editar Mi Perfil"
+              >
+                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-coffee-500 via-coffee-700 to-coffee-950 flex items-center justify-center text-white text-xs sm:text-sm font-bold shadow-md-coffee ring-2 ring-white/80 group-hover:scale-105 transition-transform">
                   {getUserInitials()}
                 </div>
-                <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
-              </div>
+                <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-amber-600 rounded-full border-2 border-white flex items-center justify-center text-[8px] text-white font-bold">
+                  ✏️
+                </div>
+              </button>
               <button
                 onClick={handleLogoutClick}
                 className="hidden sm:flex px-3.5 py-2 text-xs font-bold text-coffee-800 hover:text-white bg-coffee-50 hover:bg-gradient-to-br hover:from-red-500 hover:to-red-700 border border-coffee-200 hover:border-red-500 rounded-2xl transition-all duration-300 shadow-sm-coffee hover:shadow-lg-coffee hover:translate-y-[-1px] items-center gap-1.5"
@@ -244,7 +253,12 @@ function Navbar({ user, onLogout, cartCount = 0, onOpenCart }) {
                 <div className="px-4 py-2 flex items-center justify-between">
                   <div>
                     <p className="text-xs font-bold text-coffee-950">{user.nombres} {user.apellidos}</p>
-                    <p className="text-[10px] text-coffee-600 uppercase font-semibold">{user.rol_nombre}</p>
+                    <button
+                      onClick={() => { setIsMobileMenuOpen(false); if (onOpenEditProfile) onOpenEditProfile(); }}
+                      className="text-[10px] text-amber-800 font-bold uppercase underline"
+                    >
+                      ✏️ Editar Mi Perfil
+                    </button>
                   </div>
                   <button
                     onClick={handleLogoutClick}

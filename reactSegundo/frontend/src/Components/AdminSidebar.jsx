@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../img/cafeli_logo_2.png";
 
-export function AdminSidebar({ user, onLogout, activeTab, onTabChange }) {
+export function AdminSidebar({ user, onLogout, activeTab, onTabChange, onOpenEditProfile }) {
   const navigate = useNavigate();
   const [isOpenMobile, setIsOpenMobile] = useState(false);
 
@@ -91,6 +91,13 @@ export function AdminSidebar({ user, onLogout, activeTab, onTabChange }) {
                   </span>
                 </div>
               </div>
+              <button
+                onClick={onOpenEditProfile}
+                className="mt-3 w-full py-1.5 px-3 bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 border border-amber-400/30 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5"
+              >
+                <span>✏️</span>
+                <span>Editar Mi Perfil</span>
+              </button>
             </div>
           )}
 

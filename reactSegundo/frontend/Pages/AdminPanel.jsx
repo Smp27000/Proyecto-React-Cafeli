@@ -840,8 +840,6 @@ export function AdminPanel({ activeTabFromSidebar }) {
                     <td className="p-4 flex space-x-2 justify-center">
                       <button onClick={() => { setErrors({}); setUserModal({ open: true, mode: "edit", data: u }); }}
                         className="bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold px-3.5 py-2 rounded-xl text-xs transition-all hover:-translate-y-0.5 border border-amber-200">Editar</button>
-                      <button onClick={() => handleDeleteUser(u.id, `${u.nombres} ${u.apellidos}`)}
-                        className="bg-red-50 hover:bg-red-100 text-red-700 font-bold px-3.5 py-2 rounded-xl text-xs border border-red-200 transition-all hover:-translate-y-0.5">Eliminar</button>
                     </td>
                   </tr>
                 ))}

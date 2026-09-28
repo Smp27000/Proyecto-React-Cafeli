@@ -88,6 +88,9 @@ class UsuarioUpdate(BaseModel):
     telefono: Optional[str] = None
     email: Optional[EmailStr] = None
     password: Optional[str] = None
+    current_password: Optional[str] = None
+    currentPassword: Optional[str] = None
+    password_actual: Optional[str] = None
     rol_id: Optional[int] = None
     rolId: Optional[int] = None
     estado: Optional[str] = None

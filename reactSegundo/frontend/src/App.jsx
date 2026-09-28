@@ -7,6 +7,7 @@ import { CartDrawer } from './Components/CartDrawer'
 import { Footer } from './Components/Footer'
 import { WhatsAppButton } from './Components/WhatsAppButton'
 import { ChatbotWidget } from './Components/ChatbotWidget'
+import { EditProfileModal } from './Components/EditProfileModal'
 
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 
@@ -24,6 +25,7 @@ function App() {
   const [user, setUser] = useState(null)
   const [cart, setCart] = useState({ items: [], total_articulos: 0, total_precio: 0 })
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false)
   const [adminActiveTab, setAdminActiveTab] = useState("usuarios")
 
   const location = useLocation()
@@ -136,6 +138,7 @@ function App() {
             onLogout={handleLogout}
             activeTab={adminActiveTab}
             onTabChange={(tab) => setAdminActiveTab(tab)}
+            onOpenEditProfile={() => setIsEditProfileOpen(true)}
           />
 
           {/* Área de contenido del Administrador */}
@@ -160,6 +163,7 @@ function App() {
             onLogout={handleLogout}
             cartCount={cart?.total_articulos || 0}
             onOpenCart={() => setIsCartOpen(true)}
+            onOpenEditProfile={() => setIsEditProfileOpen(true)}
           />
 
           <main className="flex-1 w-full">
@@ -209,6 +213,14 @@ function App() {
         onCheckoutSuccess={() => {
           fetchCart()
         }}
+      />
+
+      {/* Modal para Editar Perfil de Usuario Propio */}
+      <EditProfileModal
+        isOpen={isEditProfileOpen}
+        onClose={() => setIsEditProfileOpen(false)}
+        user={user}
+        onUserUpdated={(updatedUser) => setUser(updatedUser)}
       />
 
       {/* Chatbot flotante global (visible en todas las rutas y roles) */}
